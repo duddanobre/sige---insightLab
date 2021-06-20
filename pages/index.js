@@ -1,39 +1,55 @@
-import React from 'react';
-import { Layout, Menu, Card, Table, Tag, Space} from 'antd';
+import React, { useState } from 'react';
+//import { connectToDatabase } from "../util/mongodb";
+import { Layout, Menu, Card, Table, Tag, Space, List} from 'antd';
 
 export default function Home() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
   const { Header, Content } = Layout;
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Evento',
+      dataIndex: 'evento',
+      key: 'evento',
       render: text => <a>{text}</a>,
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Hora',
+      dataIndex: 'hora',
+      key: 'hora',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Local',
+      dataIndex: 'local',
+      key: 'local',
     },
     {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: tags => (
+      title: 'Participantes',
+      key: 'participantes',
+      render: () => (
+        <Space size="middle">
+          <a onClick={showModal}>Visualizar</a>
+        </Space>
+      ),
+    },
+    {
+      title: 'Atividades',
+      key: 'atividades',
+      dataIndex: 'atividades',
+      render: atividades => (
         <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
+          {atividades.map(atividade => {
+            let color = atividade.length > 5 ? 'geekblue' : 'green';
+            if (atividade === 'Encerramento do evento') {
               color = 'volcano';
             }
             return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
+              <Tag color={color} key={atividade}>
+                {atividade.toUpperCase()}
               </Tag>
             );
           })}
@@ -41,12 +57,12 @@ export default function Home() {
       ),
     },
     {
-      title: 'Action',
-      key: 'action',
+      title: 'Ações',
+      key: 'acoes',
       render: (text, record) => (
         <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
+          <a>editar {record.name}</a>
+          <a>remover</a>
         </Space>
       ),
     },
@@ -55,24 +71,24 @@ export default function Home() {
   const data = [
     {
       key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
+      evento: 'Viagem à Maraguape CE',
+      hora: '09:00',
+      local: 'Maranguape',
+      atividades: ['Inuguração da praça infantil', 'Encerramento do evento'],
+      },
     {
       key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
+      evento: 'Viagem à Maraguape CE',
+      hora: '09:00',
+      local: 'Maranguape',
+      atividades: ['Inuguração da praça infantil', 'Coffe Break com Senador do Estado', 'Encerramento do evento'],
     },
     {
       key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
+      evento: 'Viagem à Maraguape CE',
+      hora: '09:00',
+      local: 'Maranguape',
+      atividades: ['Inuguração da praça infantil', 'Encerramento do evento'],
     },
   ];
   return (
