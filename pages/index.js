@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Card} from 'antd';
 
 export default function Home() {
   const { Header, Content } = Layout;
@@ -17,7 +17,9 @@ export default function Home() {
     </Header>
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
-          Content
+      <Card title="Agenda">
+      
+      </Card>
       </div>
     </Content>
     
