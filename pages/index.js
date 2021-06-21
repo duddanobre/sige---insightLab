@@ -51,7 +51,7 @@ export default function Home( {eventos} ) {
               
             }
             return (
-              <div>
+              <div key={atividade.atividade}>
                 <Tag color={color} key={atividade}>
                 {atividade.atividade} - {atividade.data}
                 </Tag>
@@ -80,7 +80,7 @@ export default function Home( {eventos} ) {
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
       <Card title="Agenda">
-          <Table columns={columns} dataSource={eventos}/>
+          <Table columns={columns} dataSource={eventos} rowKey={evento=>evento._id} />
       </Card>
       </div>
     </Content>
