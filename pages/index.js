@@ -13,9 +13,9 @@ export default function Home( {eventos} ) {
   const columns = [
     {
       title: "Evento",
-      key: "tema",
-      dataIndex:"tema",
-      render: tema => <div>{tema}</div>
+      key: "nome",
+      dataIndex:"nome",
+      render: nome => <div>{nome}</div>
     },
     {
       title: "Horário",
