@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
-import { Layout, Card, Table, Tag, List, Space} from 'antd';
+import { Layout, Card, Table, Tag,Space} from 'antd';
 import LayoutNxt from 'antd/lib/layout/layout';
 
 export default function Home( {eventos} ) {
@@ -13,65 +13,21 @@ export default function Home( {eventos} ) {
   const columns = [
     {
       title: "Evento",
-      key: "evento",
-      render: ({}) => (
-        <>
-          {eventos.map(evento => {
-           
-            return (
-              <List key={evento._id}>
-                <List.Item> {evento.tema}</List.Item>
-              </List>
-            );
-          })}
-        </>
-      ),
+      key: "tema",
+      dataIndex:"tema",
+      render: tema => <div>{tema}</div>
     },
     {
       title: "Horário",
       key: "horario",
-      render: ({}) => (
-        <>
-          {eventos.map(evento => {
-           
-            return (
-              <List key={evento._id}>
-                <List.Item> {evento.horario}</List.Item>
-              </List>
-            );
-          })}
-        </>
-      ),
+      dataIndex: "horario",
+      render: horario => <div>{horario}</div>
     },
     {
       title: "Local",
       key: "local",
-      render: ({}) => (
-        <>
-          {eventos.map(evento => {
-            return (
-              <List key={evento._id}>
-                <List.Item> {evento.local}</List.Item>
-              </List>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: "Evento",
-      key: "evento",
-      render: ({}) => (
-        <>
-          {eventos.map(evento => {
-            return (
-              <List key={evento._id}>
-                <List.Item> {evento.tema}</List.Item>
-              </List>
-            );
-          })}
-        </>
-      ),
+      dataIndex: "local",
+      render: local => <div>{local}</div>
     },
     {
       title: 'Participantes',
@@ -86,18 +42,21 @@ export default function Home( {eventos} ) {
       title: 'Atividades',
       key: 'atividades',
       dataIndex: 'atividades',
-      render: ({}) => (
+      render: atividades => (
         <>
-          {eventos.map(evento => {
-                 
-            let color = evento.atividades.length > 5 ? 'geekblue' : 'green';
-            if (evento.atividades === 'Encerramento do evento') {
+          {atividades.map(atividade => {
+            let color = atividade.length > 5 ? 'geekblue' : 'green';
+            if (atividade.atividade === 'Encerramento do evento') {
               color = 'volcano';
+              
             }
             return (
-              <Tag color={color} key={evento._id}>
-                {evento.atividades}
-              </Tag>
+              <div>
+                <Tag color={color} key={atividade}>
+                {atividade.atividade} - {atividade.data}
+                </Tag>
+                
+              </div>
             );
           })}
         </>
@@ -121,7 +80,7 @@ export default function Home( {eventos} ) {
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
       <Card title="Agenda">
-        <Table columns={columns} dataSource={eventos} />
+          <Table columns={columns} dataSource={eventos}/>
       </Card>
       </div>
     </Content>
