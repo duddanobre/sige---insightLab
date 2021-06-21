@@ -1,31 +1,76 @@
 import React, { useState } from 'react';
-//import { connectToDatabase } from "../util/mongodb";
-import { Layout, Menu, Card, Table, Tag, Space, List} from 'antd';
+import { connectToDatabase } from "../util/mongodb";
+import { Layout, Menu, Card, Table, Tag, List, Space} from 'antd';
 
-export default function Home() {
+export default function Home( {eventos} ) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = () => {
     setIsModalVisible(true);
   };
-
   const { Header, Content } = Layout;
   const columns = [
     {
-      title: 'Evento',
-      dataIndex: 'evento',
-      key: 'evento',
-      render: text => <a>{text}</a>,
+      title: "Evento",
+      key: "evento",
+      render: ({}) => (
+        <>
+          {eventos.map(evento => {
+           
+            return (
+              <List key={evento._id}>
+                <List.Item> {evento.tema}</List.Item>
+              </List>
+            );
+          })}
+        </>
+      ),
     },
     {
-      title: 'Hora',
-      dataIndex: 'hora',
-      key: 'hora',
+      title: "Horário",
+      key: "horario",
+      render: ({}) => (
+        <>
+          {eventos.map(evento => {
+           
+            return (
+              <List key={evento._id}>
+                <List.Item> {evento.horario}</List.Item>
+              </List>
+            );
+          })}
+        </>
+      ),
     },
     {
-      title: 'Local',
-      dataIndex: 'local',
-      key: 'local',
+      title: "Local",
+      key: "local",
+      render: ({}) => (
+        <>
+          {eventos.map(evento => {
+            return (
+              <List key={evento._id}>
+                <List.Item> {evento.local}</List.Item>
+              </List>
+            );
+          })}
+        </>
+      ),
+    },
+    {
+      title: "Evento",
+      key: "evento",
+      render: ({}) => (
+        <>
+          {eventos.map(evento => {
+            return (
+              <List key={evento._id}>
+                <List.Item> {evento.tema}</List.Item>
+              </List>
+            );
+          })}
+        </>
+      ),
     },
     {
       title: 'Participantes',
@@ -40,16 +85,17 @@ export default function Home() {
       title: 'Atividades',
       key: 'atividades',
       dataIndex: 'atividades',
-      render: atividades => (
+      render: ({}) => (
         <>
-          {atividades.map(atividade => {
-            let color = atividade.length > 5 ? 'geekblue' : 'green';
-            if (atividade === 'Encerramento do evento') {
+          {eventos.map(evento => {
+                 
+            let color = evento.atividades.length > 5 ? 'geekblue' : 'green';
+            if (evento.atividades === 'Encerramento do evento') {
               color = 'volcano';
             }
             return (
-              <Tag color={color} key={atividade}>
-                {atividade.toUpperCase()}
+              <Tag color={color} key={evento._id}>
+                {evento.atividades}
               </Tag>
             );
           })}
@@ -59,38 +105,15 @@ export default function Home() {
     {
       title: 'Ações',
       key: 'acoes',
-      render: (text, record) => (
+      render: () => (
         <Space size="middle">
-          <a>editar {record.name}</a>
+          <a>editar</a>
           <a>remover</a>
         </Space>
       ),
     },
   ];
-  
-  const data = [
-    {
-      key: '1',
-      evento: 'Viagem à Maraguape CE',
-      hora: '09:00',
-      local: 'Maranguape',
-      atividades: ['Inuguração da praça infantil', 'Encerramento do evento'],
-      },
-    {
-      key: '2',
-      evento: 'Viagem à Maraguape CE',
-      hora: '09:00',
-      local: 'Maranguape',
-      atividades: ['Inuguração da praça infantil', 'Coffe Break com Senador do Estado', 'Encerramento do evento'],
-    },
-    {
-      key: '3',
-      evento: 'Viagem à Maraguape CE',
-      hora: '09:00',
-      local: 'Maranguape',
-      atividades: ['Inuguração da praça infantil', 'Encerramento do evento'],
-    },
-  ];
+
   return (
   <Layout>
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -105,7 +128,7 @@ export default function Home() {
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
       <Card title="Agenda">
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={eventos} />
       </Card>
       </div>
     </Content>
@@ -113,3 +136,17 @@ export default function Home() {
   </Layout>
   );
 }
+
+export async function getServerSideProps() {
+  const { db } = await connectToDatabase();
+  const eventos = await db
+    .collection("evento")
+    .find({})
+    .toArray();
+  return {
+    props: {
+      eventos: JSON.parse(JSON.stringify(eventos)),
+    },
+  };
+} 
+
