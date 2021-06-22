@@ -2,17 +2,18 @@ import React, { useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
+import CadastrarEvento from '../components/CadEvento';
 
 export default function Home( {eventos} ) {
   const participantesVisible = useState(false);
-  const cadEventoVisible = useState(false);
+  const [cadEventoVisible, setCadEventoVisible] = useState(false);
 
   const showParticipantes = () => {
     participantesVisible(true);
   };
 
   const showCadEvento = () => {
-    cadEventoVisible(true);
+    setCadEventoVisible(true);
   };
 
   const { Content } = Layout;
@@ -94,6 +95,7 @@ export default function Home( {eventos} ) {
       </Card>
       </div>
     </Content>
+    <CadastrarEvento visible={cadEventoVisible} ok={() => {setCadEventoVisible(false)}} cancel={() => {setCadEventoVisible(false)}} />
   </Layout>
 
   );
