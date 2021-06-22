@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag,Space} from 'antd';
-import LayoutNxt from 'antd/lib/layout/layout';
 
 export default function Home( {eventos} ) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -75,7 +74,6 @@ export default function Home( {eventos} ) {
   ];
 
   return (
-<LayoutNxt>
 <Layout>
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
@@ -85,7 +83,6 @@ export default function Home( {eventos} ) {
       </div>
     </Content>
   </Layout>
-</LayoutNxt> 
 
   );
 }
