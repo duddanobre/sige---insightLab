@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
-import { Layout, Card, Table, Tag,Space} from 'antd';
+import { Layout, Card, Table, Tag, Space, Button} from 'antd';
+import {PlusOutlined} from '@ant-design/icons';
 
 export default function Home( {eventos} ) {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -77,7 +78,12 @@ export default function Home( {eventos} ) {
 <Layout>
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
-      <Card title="Agenda">
+      <Card title="Agenda" extra={
+        <Button icon={<PlusOutlined style={{color: '#2f994c'}} />} 
+        style={{borderColor: '#2f994c', color: '#2f994c'}}>
+          Cadastrar evento
+        </Button>
+      }>
           <Table columns={columns} dataSource={eventos} rowKey={evento=>evento._id} />
       </Card>
       </div>
