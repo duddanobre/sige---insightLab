@@ -4,11 +4,17 @@ import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 
 export default function Home( {eventos} ) {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const participantesVisible = useState(false);
+  const cadEventoVisible = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
+  const showParticipantes = () => {
+    participantesVisible(true);
   };
+
+  const showCadEvento = () => {
+    cadEventoVisible(true);
+  };
+
   const { Content } = Layout;
   const columns = [
     {
@@ -34,7 +40,7 @@ export default function Home( {eventos} ) {
       key: 'participantes',
       render: () => (
         <Space size="middle">
-          <a onClick={showModal}>Visualizar</a>
+          <a onClick={showParticipantes}>Visualizar</a>
         </Space>
       ),
     },
@@ -80,7 +86,7 @@ export default function Home( {eventos} ) {
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
       <Card title="Agenda" extra={
         <Button icon={<PlusOutlined style={{color: '#2f994c'}} />} 
-        style={{borderColor: '#2f994c', color: '#2f994c'}}>
+        style={{borderColor: '#2f994c', color: '#2f994c'}} onClick={showCadEvento}>
           Cadastrar evento
         </Button>
       }>
