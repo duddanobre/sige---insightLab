@@ -5,7 +5,6 @@ import {
   Button,
   Select,
   DatePicker,
-  InputNumber,
 } from 'antd';
 
 import axios from 'axios';
@@ -14,9 +13,10 @@ export default function Formulario(){
 
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
-const [local, setLocal] = useState("");
+const [local, setLocal] = useState("presencial");
 const [participantes, setParticipantes] = useState([{}]);
 const [atividades, setAtividades] = useState([{}]);
+
 
 async function handleCadEvento(e){
   e.preventDefault();
@@ -50,9 +50,9 @@ async function handleCadEvento(e){
           <Input value={horario} onChange={(e) => {setHorario(e.target.value)}} />
         </Form.Item>
         <Form.Item label="Local" name="local">
-          <Select>
-            <Select.Option value={local} onChange={(presencial) => {setLocal(presencial)}}>Presencial</Select.Option>
-            <Select.Option value={local} onChange={(virtual) => {setLocal(virtual)}}>Virtual</Select.Option>
+          <Select value={local} onChange={(value) => {setLocal(value)}}> 
+          <Select.Option value="presencial">Presencial</Select.Option>
+          <Select.Option value="virtual">Virtual</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item>
