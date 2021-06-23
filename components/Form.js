@@ -11,6 +11,8 @@ import axios from 'axios';
 
 export default function Formulario(){
 
+const [form] = Form.useForm();
+
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
@@ -25,6 +27,7 @@ async function handleCadEvento(e){
 
   try {
    await axios.post('/api/inserirEvento', data);
+   form.resetFields();
   } catch (error) {
     alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
   }
@@ -33,7 +36,7 @@ async function handleCadEvento(e){
 
   return (
     <div>
-      <Form 
+      <Form form={form}
         labelCol={{
           span: 4,
         }}
@@ -43,13 +46,13 @@ async function handleCadEvento(e){
         layout="horizontal"
         size="small"
       >
-        <Form.Item name="Tema do evento" label="Tema">
+        <Form.Item name="Tema do evento" label="Tema" rules={[{required: true,},]}>
           <Input value={nome} onChange={(e) => setNome(e.target.value)} />
         </Form.Item>
-        <Form.Item label="Horário" name="horario">
+        <Form.Item label="Horário" name="horario" rules={[{required: true,},]}>
           <Input value={horario} onChange={(e) => {setHorario(e.target.value)}} />
         </Form.Item>
-        <Form.Item label="Local" name="local">
+        <Form.Item label="Local" name="local" rules={[{required: true,},]}>
           <Select value={local} onChange={(value) => {setLocal(value)}}> 
           <Select.Option value="presencial">Presencial</Select.Option>
           <Select.Option value="virtual">Virtual</Select.Option>
