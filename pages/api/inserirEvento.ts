@@ -15,6 +15,6 @@ import { NextApiResponse, NextApiRequest } from 'next';
         participantes,
         atividades
     })
-  
+  console.log(res.statusCode);
     return res.status(201).json({ ok: true });
   }

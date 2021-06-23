@@ -3,17 +3,18 @@ import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/CadEvento';
+import Form from '../components/Form';
 
 export default function Home( {eventos} ) {
   const participantesVisible = useState(false);
-  const [cadEventoVisible, setCadEventoVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const showParticipantes = () => {
     participantesVisible(true);
   };
 
   const showCadEvento = () => {
-    setCadEventoVisible(true);
+    setModalVisible(true);
   };
 
   const { Content } = Layout;
@@ -59,7 +60,7 @@ export default function Home( {eventos} ) {
             }
             return (
               <div key={atividade.atividade}>
-                <Tag color={color} key={atividade}>
+                <Tag color={color} key={atividade} style={{marginBottom: '10px'}}>
                 {atividade.atividade} - {atividade.data}
                 </Tag>
                 
@@ -95,7 +96,9 @@ export default function Home( {eventos} ) {
       </Card>
       </div>
     </Content>
-    <CadastrarEvento visible={cadEventoVisible} ok={() => {setCadEventoVisible(false)}} cancel={() => {setCadEventoVisible(false)}} />
+    <CadastrarEvento visible={modalVisible} ok={() => {setModalVisible(false)}} cancel={() => {setModalVisible(false)}}>
+      <Form />
+    </CadastrarEvento>
   </Layout>
 
   );
