@@ -12,14 +12,23 @@ import axios from 'axios';
 
 export default function Formulario(){
 
-const [nome, setNome] = useState('Duda');
-const [horario, setHorario] = useState('');
-const [local, setLocal] = useState('');
+const [nome, setNome] = useState("");
+const [horario, setHorario] = useState("");
+const [local, setLocal] = useState("");
 const [participantes, setParticipantes] = useState([{}]);
 const [atividades, setAtividades] = useState([{}]);
 
-function handleCadEvento(){
-    axios.post('/api/inserirEvento', {nome}, {horario}, {local}, {participantes}, {atividades});
+async function handleCadEvento(e){
+  e.preventDefault();
+
+  const data = {nome, horario, local, participantes, atividades};
+
+  try {
+   await axios.post('/api/inserirEvento', data);
+  } catch (error) {
+    alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
+  }
+    
 }
 
   return (
@@ -35,19 +44,16 @@ function handleCadEvento(){
         size="small"
       >
         <Form.Item name="Tema do evento" label="Tema">
-          <Input />
+          <Input value={nome} onChange={(e) => setNome(e.target.value)} />
         </Form.Item>
-        <Form.Item label="Horário">
-          <InputNumber />
+        <Form.Item label="Horário" name="horario">
+          <Input value={horario} onChange={(e) => {setHorario(e.target.value)}} />
         </Form.Item>
-        <Form.Item label="Local">
+        <Form.Item label="Local" name="local">
           <Select>
-            <Select.Option value="demo">Presencial</Select.Option>
-            <Select.Option value="demo">Virtual</Select.Option>
+            <Select.Option value={local} onChange={(presencial) => {setLocal(presencial)}}>Presencial</Select.Option>
+            <Select.Option value={local} onChange={(virtual) => {setLocal(virtual)}}>Virtual</Select.Option>
           </Select>
-        </Form.Item>
-        <Form.Item label="Data">
-          <DatePicker />
         </Form.Item>
         <Form.Item>
           <Button onClick={handleCadEvento}>Cadastrar</Button>
