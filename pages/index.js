@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button} from 'antd';
-import {PlusOutlined} from '@ant-design/icons';
+import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import Form from '../components/Form';
 
 export default function Home( {eventos} ) {
   const participantesVisible = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  
+ const refreshPage = ()=>{
+    window.location.reload(); 
+ }
 
   const showParticipantes = () => {
     participantesVisible(true);
@@ -82,6 +86,10 @@ export default function Home( {eventos} ) {
 <Layout>
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
+      <Button icon={<RotateLeftOutlined style={{color: '#2f994c'}} />} 
+        style={{borderColor: '#3390b5', color: '#3390b5', bottom: 15}} onClick={refreshPage}>
+          Atualizar 
+      </Button>
       <Card title="Agenda" extra={
         <Button icon={<PlusOutlined style={{color: '#2f994c'}} />} 
         style={{borderColor: '#2f994c', color: '#2f994c'}} onClick={showCadEvento}>
@@ -92,7 +100,7 @@ export default function Home( {eventos} ) {
       </Card>
       </div>
     </Content>
-    <CadastrarEvento visible={modalVisible} ok={() => {setModalVisible(false)}} cancel={() => {setModalVisible(false)}}>
+    <CadastrarEvento visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
   </Layout>

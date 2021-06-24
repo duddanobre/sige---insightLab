@@ -30,7 +30,9 @@ function handleInputChange(event){
 
 function handleCadAtividades(e){
   e.preventDefault();
- const atividadesList =  atividades.map((i) => ({
+ const atividadesList =  atividades
+ .filter(item => {item.atividade != "" && item.data != ""})
+ .map((i) => ({
       atividade: i.atividade,
       data: i.data,
   }))
@@ -51,6 +53,7 @@ async function handleCadEvento(e){
   try {
    await axios.post('/api/inserirEvento', data);
    form.resetFields();
+   form2.resetFields();
   } catch (error) {
     alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
   }
@@ -81,20 +84,29 @@ async function handleCadEvento(e){
           <Select.Option value="virtual">Virtual</Select.Option>
           </Select>
         </Form.Item>
-          <Divider>Atividades</Divider>
-          <Form form={form2} layout="horizontal" size="small">
+      </Form>
+      <Divider>Atividades</Divider>
+        <Form form={form2} layout="horizontal" size="small"
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+        >
           <Form.Item name="Atividade" label="atividade" rules={[{required: true,},]}>
               <Input name="atividade" id="atividade" onChange={handleInputChange} />
             </Form.Item>
             <Form.Item name="Data" label="data" rules={[{required: true,},]}>
               <Input name="data" id="data" onChange={handleInputChange} />
             </Form.Item>
-            <Button style={{left: 30}} onClick={handleCadAtividades}>Adicionar</Button>
-          </Form>
-        <Form.Item>
-          <Button onClick={handleCadEvento}>Cadastrar</Button>
-        </Form.Item>
-      </Form>
+            <Form.Item>
+            <Button style={{borderColor: '#3390b5', color: '#3390b5', marginLeft: 250}} onClick={handleCadAtividades}>Adicionar</Button>
+            </Form.Item>
+            <Form.Item>
+            <Button style={{borderColor: '#2f994c', color: '#2f994c', top: 30}} onClick={handleCadEvento}>Cadastrar</Button>
+            </Form.Item>
+        </Form>
     </div>
   );
 };
