@@ -5,6 +5,7 @@ import {
   Button,
   Select,
   DatePicker,
+  Divider
 } from 'antd';
 
 import axios from 'axios';
@@ -16,9 +17,13 @@ const [form] = Form.useForm();
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
-const [participantes, setParticipantes] = useState([{}]);
-const [atividades, setAtividades] = useState([{}]);
+const [participantes, setParticipantes] = useState({});
+const [atividades, setAtividades] = useState({atividade:"", data:""});
 
+function handleInputChange(event){
+  atividades[event.target.name] = event.target.value;
+  setAtividades(atividades);
+}
 
 async function handleCadEvento(e){
   e.preventDefault();
@@ -58,6 +63,13 @@ async function handleCadEvento(e){
           <Select.Option value="virtual">Virtual</Select.Option>
           </Select>
         </Form.Item>
+          <Divider>Atividades</Divider>
+            <Form.Item name="Atividade" label="atividade" rules={[{required: true,},]}>
+              <Input name="atividade" id="atividade" onChange={handleInputChange} />
+            </Form.Item>
+            <Form.Item name="Data" label="data" rules={[{required: true,},]}>
+              <Input name="data" id="data" onChange={handleInputChange} />
+            </Form.Item>
         <Form.Item>
           <Button onClick={handleCadEvento}>Cadastrar</Button>
         </Form.Item>
