@@ -43,7 +43,6 @@ function handleCadAtividades(e){
   setAtividades(atividadesList);
   console.log(atividades)
   form2.resetFields();
-  
 }
 
 async function handleCadEvento(e){
@@ -57,7 +56,7 @@ async function handleCadEvento(e){
   } catch (error) {
     alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
   }
-    console.log(atividades);
+  alert('Evento cadastrado com sucesso!');
 }
 
   return (
