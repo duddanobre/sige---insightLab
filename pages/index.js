@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
-import CadastrarEvento from '../components/CadEvento';
+import CadastrarEvento from '../components/Modal';
 import Form from '../components/Form';
 
 export default function Home( {eventos} ) {
@@ -50,25 +50,21 @@ export default function Home( {eventos} ) {
       title: 'Atividades',
       key: 'atividades',
       dataIndex: 'atividades',
-      render: atividades => (
-        <>
-          {atividades.map(atividade => {
-            let color = atividade.length > 5 ? 'geekblue' : 'green';
-            if (atividade.atividade === 'Encerramento do evento') {
-              color = 'volcano';
-              
-            }
+      render: (atividades) => {
+       let color = atividades.length > 5 ? 'geekblue' : 'green'
+            if (atividades.atividade === 'Encerramento do evento') 
+            color = 'volcano' 
             return (
-              <div key={atividade.atividade}>
-                <Tag color={color} key={atividade} style={{marginBottom: '10px'}}>
-                {atividade.atividade} - {atividade.data}
+              <div key={atividades.atividade}>
+                <Tag color={color} key={atividades.atividade} style={{marginBottom: '10px'}}>
+                  {atividades.atividade} - {atividades.data}
                 </Tag>
-                
+                  
               </div>
             );
-          })}
-        </>
-      ),
+          
+      
+      },
     },
     {
       title: 'Ações',
