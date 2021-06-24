@@ -54,21 +54,25 @@ export default function Home( {eventos} ) {
       title: 'Atividades',
       key: 'atividades',
       dataIndex: 'atividades',
-      render: (atividades) => {
-       let color = atividades.length > 5 ? 'geekblue' : 'green'
-            if (atividades.atividade === 'Encerramento do evento') 
-            color = 'volcano' 
+      render: atividades => (
+        <>
+          {atividades.map(atividade => {
+            let color = atividade.length > 5 ? 'geekblue' : 'green';
+            if (atividade.atividade === 'Encerramento do evento') {
+              color = 'volcano';
+
+            }
             return (
-              <div key={atividades.atividade}>
-                <Tag color={color} key={atividades.atividade} style={{marginBottom: '10px'}}>
-                  {atividades.atividade} - {atividades.data}
+              <div>
+                <Tag style={{marginBottom: 10}} color={color} key={atividade}>
+                {atividade.atividade} - {atividade.data}
                 </Tag>
-                  
+
               </div>
             );
-          
-      
-      },
+          })}
+        </>
+      ),
     },
     {
       title: 'Ações',
