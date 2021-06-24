@@ -13,21 +13,39 @@ import axios from 'axios';
 export default function Formulario(){
 
 const [form] = Form.useForm();
+const [form2] = Form.useForm();
 
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
 const [participantes, setParticipantes] = useState({});
-const [atividades, setAtividades] = useState({atividade:"", data:""});
+const [atividades, setAtividades] = useState([{atividade:"", data:""}]);
+const [campos, setCampos] = useState({atividade:'', data:''})
 
 function handleInputChange(event){
-  atividades[event.target.name] = event.target.value;
-  setAtividades(atividades);
+  event.preventDefault();
+  campos[event.target.name] = event.target.value;
+  setCampos(campos);
+}
+
+function handleCadAtividades(e){
+  e.preventDefault();
+ const atividadesList =  atividades.map((i) => ({
+      atividade: i.atividade,
+      data: i.data,
+  }))
+  atividadesList.unshift({
+    atividade: campos.atividade,
+    data: campos.data
+  })
+  setAtividades(atividadesList);
+  console.log(atividades)
+  form2.resetFields();
+  
 }
 
 async function handleCadEvento(e){
   e.preventDefault();
-
   const data = {nome, horario, local, participantes, atividades};
 
   try {
@@ -36,7 +54,7 @@ async function handleCadEvento(e){
   } catch (error) {
     alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
   }
-    
+    console.log(atividades);
 }
 
   return (
@@ -49,7 +67,7 @@ async function handleCadEvento(e){
           span: 14,
         }}
         layout="horizontal"
-        size="small"
+        size="middle"
       >
         <Form.Item name="Tema do evento" label="Tema" rules={[{required: true,},]}>
           <Input value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -64,12 +82,15 @@ async function handleCadEvento(e){
           </Select>
         </Form.Item>
           <Divider>Atividades</Divider>
-            <Form.Item name="Atividade" label="atividade" rules={[{required: true,},]}>
+          <Form form={form2} layout="horizontal" size="small">
+          <Form.Item name="Atividade" label="atividade" rules={[{required: true,},]}>
               <Input name="atividade" id="atividade" onChange={handleInputChange} />
             </Form.Item>
             <Form.Item name="Data" label="data" rules={[{required: true,},]}>
               <Input name="data" id="data" onChange={handleInputChange} />
             </Form.Item>
+            <Button style={{left: 30}} onClick={handleCadAtividades}>Adicionar</Button>
+          </Form>
         <Form.Item>
           <Button onClick={handleCadEvento}>Cadastrar</Button>
         </Form.Item>
