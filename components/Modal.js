@@ -5,7 +5,7 @@ export default function CadastrarEvento(props){
 
   return (
     <div>
-      <Modal title="Cadastrar Evento" 
+      <Modal title={props.title}
       cancelButtonProps={{ style: { display: 'none' } }}
       onOk={props.ok}  
       visible={props.visible}
