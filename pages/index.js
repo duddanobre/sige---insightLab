@@ -105,7 +105,7 @@ export default function Home( {eventos} ) {
       </Card>
       </div>
     </Content>
-    <CadastrarEvento visible={modalVisible} ok={() => {setModalVisible(false)}}>
+    <CadastrarEvento title="Cadastrar Evento" visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
   </Layout>
