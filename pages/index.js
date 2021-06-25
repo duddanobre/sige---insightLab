@@ -4,6 +4,7 @@ import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import Form from '../components/Form';
+import Remove from '../components/RemoveButton';
 
 export default function Home( {eventos} ) {
   const participantesVisible = useState(false);
@@ -77,10 +78,10 @@ export default function Home( {eventos} ) {
     {
       title: 'Ações',
       key: 'acoes',
-      render: () => (
-        <Space size="middle">
+      render: evento => (
+        <Space size="middle" key={evento._id}>
           <a>editar</a>
-          <a>remover</a>
+          <Remove id={evento._id} />
         </Space>
       ),
     },
@@ -104,7 +105,7 @@ export default function Home( {eventos} ) {
       </Card>
       </div>
     </Content>
-    <CadastrarEvento visible={modalVisible} ok={() => {setModalVisible(false)}}>
+    <CadastrarEvento title="Cadastrar Evento" visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
   </Layout>
