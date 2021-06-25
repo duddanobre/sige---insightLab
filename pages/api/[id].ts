@@ -13,7 +13,7 @@ import mongodb from 'mongodb';
 
     try {
       await collection.deleteOne(query);
-
+      
       return res.status(200).json({
         success: true,
         data: { id },
