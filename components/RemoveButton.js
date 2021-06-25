@@ -4,10 +4,9 @@ import {DeleteOutlined} from '@ant-design/icons'
 import axios from 'axios';
 
 export default function RemoveEvento(props){
-    
 
    async function deleteById(id){
-        
+
         await axios.delete('/api/' + id, {
             responseType: 'json'
         }).then(() => {

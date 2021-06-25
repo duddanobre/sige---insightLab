@@ -78,10 +78,10 @@ export default function Home( {eventos} ) {
     {
       title: 'Ações',
       key: 'acoes',
-      render: () => (
-        <Space size="middle">
+      render: evento => (
+        <Space size="middle" key={evento._id}>
           <a>editar</a>
-          <Remove />
+          <Remove id={evento._id} />
         </Space>
       ),
     },
