@@ -4,6 +4,7 @@ import { Layout, Card, Table, Tag, Space, Button} from 'antd';
 import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import Form from '../components/Form';
+import Remove from '../components/RemoveButton';
 
 export default function Home( {eventos} ) {
   const participantesVisible = useState(false);
@@ -80,7 +81,7 @@ export default function Home( {eventos} ) {
       render: () => (
         <Space size="middle">
           <a>editar</a>
-          <a>remover</a>
+          <Remove />
         </Space>
       ),
     },
