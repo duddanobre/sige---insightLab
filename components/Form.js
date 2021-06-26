@@ -116,10 +116,10 @@ async function handleCadEvento(e){
             span: 14,
           }}
         >
-          <Form.Item name="Atividade" label="atividade" rules={[{required: true,},]}>
+          <Form.Item name="Atividade" label="atividade">
               <Input name="atividade" id="atividade" onChange={handleInputChange} />
             </Form.Item>
-            <Form.Item name="Data" label="data" rules={[{required: true,},]}>
+            <Form.Item name="Data" label="data">
               <Input name="data" id="data" onChange={handleInputChange} />
             </Form.Item>
             <Form.Item>
@@ -135,7 +135,7 @@ async function handleCadEvento(e){
             span: 14,
           }}
         >
-       <Form.Item name="Nome" label="nome" rules={[{required: true,},]}>
+       <Form.Item name="Nome" label="nome">
           <Input name="nome" id="nome" onChange={handleInputChanged} />
        </Form.Item>
        <Form.Item>
