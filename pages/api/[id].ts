@@ -1,12 +1,11 @@
 import { connectToDatabase } from '../../util/mongodb';
-import { NextApiResponse, NextApiRequest } from 'next';
 import mongodb from 'mongodb';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req, res) => {
 
     if(req.method === 'GET'){
-      const { query: { id } } = req;
-      const query = { _id: new mongodb.ObjectID(id) };
+      const { query: {id} } = req;
+      const query = { _id: new mongodb.ObjectID(id)};
 
       const { db } = await connectToDatabase();
     
@@ -14,10 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       try {
         const data = await collection.findOne(query);
-        return res.status(200).json({
-          success: true,
-          data
-        });
+        return res.status(200).json(data);
       } catch (error) {
         return res.status(400).json({
           success: false,
