@@ -3,6 +3,29 @@ import { NextApiResponse, NextApiRequest } from 'next';
 import mongodb from 'mongodb';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+
+    if(req.method === 'GET'){
+      const { query: { id } } = req;
+      const query = { _id: new mongodb.ObjectID(id) };
+
+      const { db } = await connectToDatabase();
+    
+      const collection = db.collection('evento');
+
+      try {
+        const data = await collection.findOne(query);
+        return res.status(200).json({
+          success: true,
+          data
+        });
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+        });
+      }
+      
+    }
+
     if(req.method === 'DELETE'){
       const { query: { id } } = req;
       const query = { _id: new mongodb.ObjectID(id) };
