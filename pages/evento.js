@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Layout,
   Form,
@@ -9,10 +9,9 @@ import {
   Row,
   Col
 } from 'antd';
-
 import axios from 'axios';
 
-export default function EditarEvento(){
+export default function EditarEvento({id}){
 
 const { Content } = Layout;    
 
@@ -28,6 +27,15 @@ const [campos, setCampos] = useState({atividade:'', data:''});
 const [participantes, setParticipantes] = useState([{nome:""}]);
 const [inputs, setInputs] = useState({nome:''});
 
+useEffect(() => {
+  axios.get('/api/'+id).then(response => {
+    setNome(response.data.nome);
+    setHorario(response.data.horario);
+    setLocal(response.data.local);
+    console.log(nome, local);
+})
+  
+}, [id]);
 
 function handleInputChange(event){
   event.preventDefault();
@@ -103,12 +111,17 @@ async function handleCadEvento(e){
                                 }}
                                 layout="horizontal"
                                 size="small"
+                                fields={[
+                                    {name: ["tema"], value: nome,},
+                                    { name: ["horario"], value: horario,},
+                                    { name: ["local"], value: local,},
+                                  ]}
                             >
-                                <Form.Item name={nome} label="Tema" rules={[{required: true,},]}>
+                                <Form.Item name="tema" label="Tema" rules={[{required: true,},]}>
                                     <Input value={nome} onChange={(e) => setNome(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item label="Horário" name="horario" rules={[{required: true,},]}>
-                                    <Input value={horario} onChange={(e) => {setHorario(e.target.value)}} />
+                                    <Input  value={horario} onChange={(e) => {setHorario(e.target.value)}} />
                                 </Form.Item>
                                 <Form.Item label="Local" name="local" rules={[{required: true,},]}>
                                     <Select value={local} onChange={(value) => {setLocal(value)}}> 
@@ -180,3 +193,7 @@ async function handleCadEvento(e){
     </Layout>
   );
 };
+
+EditarEvento.getInitialProps = ({ query: { id } }) => {
+    return { id }
+  }
