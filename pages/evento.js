@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Space,  
   Layout,
   Form,
   Input,
@@ -7,8 +8,10 @@ import {
   Select,
   Divider,
   Row,
-  Col
+  Col,
+  List
 } from 'antd';
+import {DeleteOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
 export default function EditarEvento({id}){
@@ -32,7 +35,9 @@ useEffect(() => {
     setNome(response.data.nome);
     setHorario(response.data.horario);
     setLocal(response.data.local);
-    console.log(nome, local);
+    setAtividades(response.data.atividades);
+    setParticipantes(response.data.participantes);
+    console.log(response.data.atividades, response.data.participantes);
 })
   
 }, [id]);
@@ -46,7 +51,7 @@ function handleInputChange(event){
 function handleCadAtividades(e){
   e.preventDefault();
  const atividadesList =  atividades
- .filter(item => {item.atividade != "" && item.data != ""})
+ //.filter(item => {item.atividade != "" && item.data != ""})
  .map((i) => ({
       atividade: i.atividade,
       data: i.data,
@@ -56,8 +61,22 @@ function handleCadAtividades(e){
     data: campos.data
   })
   setAtividades(atividadesList);
-  console.log(atividades)
   form2.resetFields();
+}
+
+function deleteAtividade(atvd){
+    try {
+        const atvdList =  atividades
+        .filter(atividade => atividade.atividade !== atvd)
+        .map((i) => ({
+             atividade: i.atividade,
+             data: i.data,
+         }))
+         setAtividades(atvdList);
+         alert('Atvidade removida.')
+    } catch (error) {
+        alert('Falha ao deletar, tente novamente');
+    }
 }
 
 function handleInputChanged(event){
@@ -100,7 +119,7 @@ async function handleCadEvento(e){
         <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
                 <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
                     <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col className="gutter-row" span={24}>  
+                        <Col className="gutter-row" span={8}>  
                             <Divider>Editar evento</Divider>
                             <Form form={form}
                                 labelCol={{
@@ -131,9 +150,7 @@ async function handleCadEvento(e){
                                 </Form.Item>
                             </Form>
                         </Col>
-                    </Row> 
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-                        <Col className="gutter-row" span={12}>
+                        <Col className="gutter-row" span={8}>
                             <Divider>Atividades</Divider>
                             <Form form={form2} layout="horizontal" size="small"
                             labelCol={{
@@ -143,21 +160,38 @@ async function handleCadEvento(e){
                                 span: 14,
                             }}
                             >
+                                <Form.Item>
+                                    <Button style={{borderColor: '#3390b5', color: '#3390b5', left: 50}} 
+                                     onClick={handleCadAtividades}>
+                                        Adicionar
+                                    </Button>
+                                </Form.Item>
                                 <Form.Item name="Atividade" label="atividade">
                                     <Input name="atividade" id="atividade" onChange={handleInputChange} />
                                 </Form.Item>
                                 <Form.Item name="Data" label="data">
                                 <Input name="data" id="data" onChange={handleInputChange} />
                                 </Form.Item>
-                                <Form.Item>
-                                    <Button style={{borderColor: '#3390b5', color: '#3390b5', left: 50}} 
-                                    onClick={handleCadAtividades}>
-                                        Editar
-                                    </Button>
-                                </Form.Item>
                             </Form>
+                            <Space style={{ display: 'block'}}>
+                                {atividades.map(item =>
+                                <List key={item} 
+                                    size="small"
+                                    bordered
+                                    style={{top: 15}}
+                                    >
+                                    <List.Item>{item.atividade} - {item.data}
+                                    <Button shape="round" size="small" icon={<DeleteOutlined style={{color: '#cc2d37'}} />} 
+                                    style={{ color: '#cc2d37', left: 2, border: 'none'}}
+                                    onClick={() => deleteAtividade(item.atividade)}
+                                    >
+                                    </Button>
+                                    </List.Item>
+                                </List>
+                                )}
+                            </Space>    
                         </Col>
-                        <Col className="gutter-row" span={12}>
+                        <Col className="gutter-row" span={8}>
                             <Divider>Participantes</Divider>
                             <Form form={form3} layout="horizontal" size="small"
                                 labelCol={{
@@ -167,19 +201,19 @@ async function handleCadEvento(e){
                                     span: 14,
                                 }}
                             >
-                                <Form.Item name="Nome" label="nome">
-                                    <Input name="nome" id="nome" onChange={handleInputChanged} />
-                                </Form.Item>
                                 <Form.Item>
                                     <Button style={{borderColor: '#3390b5', color: '#3390b5', left: 50}} 
                                     onClick={handleCadParticipantes}>
                                         Editar
                                     </Button>
                                 </Form.Item>
+                                <Form.Item name="Nome" label="nome">
+                                    <Input name="nome" id="nome" onChange={handleInputChanged} />
+                                </Form.Item>
                                 <Col className="gutter-row" span={24}>
                                     <Form.Item>
                                         <Button size="large"
-                                        style={{borderColor: '#2f994c', color: '#2f994c', top: 50, right: 70}} 
+                                        style={{borderColor: '#2f994c', color: '#2f994c', top: 100}} 
                                         onClick={handleCadEvento}>
                                             Editar Evento
                                         </Button>

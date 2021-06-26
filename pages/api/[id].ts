@@ -1,7 +1,8 @@
 import { connectToDatabase } from '../../util/mongodb';
 import mongodb from 'mongodb';
+import { NextApiResponse, NextApiRequest } from 'next';
 
-export default async (req, res) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(req.method === 'GET'){
       const { query: {id} } = req;
