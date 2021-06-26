@@ -1,7 +1,7 @@
 import React, {useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
-import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
+import {RotateLeftOutlined, PlusOutlined, EditOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
@@ -96,7 +96,12 @@ export default function Home( {eventos} ) {
       key: 'acoes',
       render: evento => (
         <Space size="middle" key={evento._id}>
-          <a>editar</a>
+          <a href="/evento">
+           <Button size="small"
+            style={{borderColor: '#2d21db', color: '#2d21db'}}
+            icon={<EditOutlined style={{color: '#2d21db'}} />}
+           />
+          </a>
           <Remove id={evento._id} />
         </Space>
       ),
