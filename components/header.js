@@ -13,14 +13,11 @@ export default class Header extends Component{
               </div>
               <Menu theme="dark" mode="horizontal" style={{float: 'right'}}>
                 <Menu.Item key="1" style={{color: '#fff', fontSize: '16px', fontWeight: 400}}>
-                <a href="/gabinete">Gabinete de Governo</a>
-                </Menu.Item>
-                <Menu.Item key="2" style={{color: '#fff', fontSize: '16px', fontWeight: 400}}>
                 <LogoutOutlined style={{fontSize: '16px', color:'#fff', marginRight: '10px', fontWeight: 400}} />
                   Sair
                 </Menu.Item>
               </Menu>
-              </Header>
+            </Header>
         )
     }
 }

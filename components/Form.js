@@ -4,7 +4,6 @@ import {
   Input,
   Button,
   Select,
-  DatePicker,
   Divider
 } from 'antd';
 
@@ -14,13 +13,16 @@ export default function Formulario(){
 
 const [form] = Form.useForm();
 const [form2] = Form.useForm();
+const [form3] = Form.useForm();
 
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
-const [participantes, setParticipantes] = useState({});
 const [atividades, setAtividades] = useState([{atividade:"", data:""}]);
-const [campos, setCampos] = useState({atividade:'', data:''})
+const [campos, setCampos] = useState({atividade:'', data:''});
+const [participantes, setParticipantes] = useState([{nome:""}]);
+const [inputs, setInputs] = useState({nome:''});
+
 
 function handleInputChange(event){
   event.preventDefault();
@@ -43,6 +45,27 @@ function handleCadAtividades(e){
   setAtividades(atividadesList);
   console.log(atividades)
   form2.resetFields();
+}
+
+function handleInputChanged(event){
+  event.preventDefault();
+  inputs[event.target.name] = event.target.value;
+  setInputs(inputs);
+}
+
+function handleCadParticipantes(e){
+  e.preventDefault();
+ const participantesList =  participantes
+ .filter(item => {item.nome != ""})
+ .map((i) => ({
+      nome: i.nome
+  }))
+  participantesList.unshift({
+    nome: inputs.nome
+  })
+  setParticipantes(participantesList);
+  console.log(participantes)
+  form3.resetFields();
 }
 
 async function handleCadEvento(e){
@@ -69,7 +92,7 @@ async function handleCadEvento(e){
           span: 14,
         }}
         layout="horizontal"
-        size="middle"
+        size="small"
       >
         <Form.Item name="Tema do evento" label="Tema" rules={[{required: true,},]}>
           <Input value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -100,12 +123,28 @@ async function handleCadEvento(e){
               <Input name="data" id="data" onChange={handleInputChange} />
             </Form.Item>
             <Form.Item>
-            <Button style={{borderColor: '#3390b5', color: '#3390b5', marginLeft: 250}} onClick={handleCadAtividades}>Adicionar</Button>
-            </Form.Item>
-            <Form.Item>
-            <Button style={{borderColor: '#2f994c', color: '#2f994c', top: 30}} onClick={handleCadEvento}>Cadastrar</Button>
+            <Button style={{borderColor: '#3390b5', color: '#3390b5'}} onClick={handleCadAtividades}>Adicionar</Button>
             </Form.Item>
         </Form>
+    <Divider>Participantes</Divider>
+    <Form form={form3} layout="horizontal" size="small"
+          labelCol={{
+            span: 4,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+        >
+       <Form.Item name="Nome" label="nome" rules={[{required: true,},]}>
+          <Input name="nome" id="nome" onChange={handleInputChanged} />
+       </Form.Item>
+       <Form.Item>
+          <Button style={{borderColor: '#3390b5', color: '#3390b5'}} onClick={handleCadParticipantes}>Adicionar</Button>
+       </Form.Item>
+       <Form.Item>
+          <Button style={{borderColor: '#2f994c', color: '#2f994c', marginLeft: '200px', width: 90, height: 40}} onClick={handleCadEvento}>Cadastrar</Button>
+       </Form.Item>
+      </Form>  
     </div>
   );
 };
