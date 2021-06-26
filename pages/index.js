@@ -6,6 +6,7 @@ import CadastrarEvento from '../components/Modal';
 import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
 import Remove from '../components/RemoveButton';
+import Link from 'next/link';
 
 export default function Home( {eventos} ) {
   const [participantesVisible, setParticipantesVisible] = useState(false);
@@ -96,12 +97,17 @@ export default function Home( {eventos} ) {
       key: 'acoes',
       render: evento => (
         <Space size="middle" key={evento._id}>
-          <a href="/evento">
-           <Button size="small"
-            style={{borderColor: '#2d21db', color: '#2d21db'}}
-            icon={<EditOutlined style={{color: '#2d21db'}} />}
-           />
-          </a>
+          <Link href={{
+            pathname: "/evento",
+            query: { id: evento._id },
+          }}>
+            <a>
+              <Button size="small"
+              style={{borderColor: '#2d21db', color: '#2d21db'}}
+              icon={<EditOutlined style={{color: '#2d21db'}} />}
+              />
+            </a>
+          </Link>
           <Remove id={evento._id} />
         </Space>
       ),

@@ -104,7 +104,7 @@ async function handleCadEvento(e){
                                 layout="horizontal"
                                 size="small"
                             >
-                                <Form.Item name="Tema do evento" label="Tema" rules={[{required: true,},]}>
+                                <Form.Item name={nome} label="Tema" rules={[{required: true,},]}>
                                     <Input value={nome} onChange={(e) => setNome(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item label="Horário" name="horario" rules={[{required: true,},]}>
