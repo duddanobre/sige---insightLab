@@ -4,7 +4,7 @@ import { NextApiResponse, NextApiRequest } from 'next';
   export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { nome, horario, local, participantes, atividades} = req.body;
 
-    if (!nome || !horario || !participantes || !atividades) {
+    if (!nome || !horario) {
       res.status(400).json({ error: 'Parâmetro ausente, verifique se está passando todos os dados corretamente' });
       return;
     }

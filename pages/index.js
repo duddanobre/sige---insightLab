@@ -1,13 +1,14 @@
 import React, {useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
-import { Layout, Card, Table, Tag, Space, Button} from 'antd';
+import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
 import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
+import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
 import Remove from '../components/RemoveButton';
 
 export default function Home( {eventos} ) {
-  const participantesVisible = useState(false);
+  const [participantesVisible, setParticipantesVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   
  const refreshPage = ()=>{
@@ -15,7 +16,7 @@ export default function Home( {eventos} ) {
  }
 
   const showParticipantes = () => {
-    participantesVisible(true);
+    setParticipantesVisible(true);
   };
 
   const showCadEvento = () => {
@@ -45,10 +46,25 @@ export default function Home( {eventos} ) {
     {
       title: 'Participantes',
       key: 'participantes',
-      render: () => (
-        <Space size="middle">
+      dataIndex: 'participantes',
+      render: participantes => (
+        <>
+        {participantes.map(i => {
+        return (
+        <div>
           <a onClick={showParticipantes}>Visualizar</a>
-        </Space>
+          <ListarParticipantes title="Participantes" visible={participantesVisible} ok={() => {setParticipantesVisible(false)}}>
+             <List key={i}
+             size="small"
+             bordered
+             >
+            <List.Item>{i.nome}</List.Item>
+             </List>
+          </ListarParticipantes>
+        </div>
+           );
+          })}
+        </>
       ),
     },
     {
