@@ -17,7 +17,7 @@ export default class Header extends Component{
                   Sair
                 </Menu.Item>
               </Menu>
-              </Header>
+            </Header>
         )
     }
 }
