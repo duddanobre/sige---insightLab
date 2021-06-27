@@ -22,6 +22,7 @@ const [form] = Form.useForm();
 const [form2] = Form.useForm();
 const [form3] = Form.useForm();
 
+const [_id, setId] = useState('');
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
@@ -32,6 +33,7 @@ const [inputs, setInputs] = useState({nome:''});
 
 useEffect(() => {
   axios.get('/api/'+id).then(response => {
+    setId(response.data._id);  
     setNome(response.data.nome);
     setHorario(response.data.horario);
     setLocal(response.data.local);
@@ -88,7 +90,6 @@ function handleInputChanged(event){
 function handleCadParticipantes(e){
   e.preventDefault();
  const participantesList =  participantes
- .filter(item => {item.nome != ""})
  .map((i) => ({
       nome: i.nome
   }))
@@ -96,24 +97,32 @@ function handleCadParticipantes(e){
     nome: inputs.nome
   })
   setParticipantes(participantesList);
-  console.log(participantes)
   form3.resetFields();
 }
 
-async function handleCadEvento(e){
-  e.preventDefault();
-  const data = {nome, horario, local, participantes, atividades};
-
-  try {
-   await axios.post('/api/inserirEvento', data);
-   form.resetFields();
-   form2.resetFields();
-  } catch (error) {
-    alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
-  }
-  alert('Evento cadastrado com sucesso!');
+function deleteParticipante(nome){
+    try {
+        const participanteList =  participantes
+        .filter(participante => participante.nome !== nome)
+        .map((i) => ({
+             nome: i.nome
+         }))
+         setParticipantes(participanteList);
+         alert('Participante removido.')
+    } catch (error) {
+        alert('Falha ao deletar, tente novamente');
+    }
 }
 
+ function handleEditEvento(e){
+    e.preventDefault();
+    const data = {_id, nome, horario, local, participantes, atividades};
+  
+     axios.put('/api/' +_id, data).then(() =>{
+        alert('alterado', data);
+     })
+     
+  }
   return (
     <Layout>
         <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
@@ -204,7 +213,7 @@ async function handleCadEvento(e){
                                 <Form.Item>
                                     <Button style={{borderColor: '#3390b5', color: '#3390b5', left: 50}} 
                                     onClick={handleCadParticipantes}>
-                                        Editar
+                                        Adicionar
                                     </Button>
                                 </Form.Item>
                                 <Form.Item name="Nome" label="nome">
@@ -213,13 +222,30 @@ async function handleCadEvento(e){
                                 <Col className="gutter-row" span={24}>
                                     <Form.Item>
                                         <Button size="large"
-                                        style={{borderColor: '#2f994c', color: '#2f994c', top: 100}} 
-                                        onClick={handleCadEvento}>
+                                        style={{borderColor: '#2f994c', color: '#2f994c', top: 300, left: 50}} 
+                                        onClick={handleEditEvento}>
                                             Editar Evento
                                         </Button>
                                     </Form.Item>
                                 </Col>
                             </Form> 
+                            <Space style={{ display: 'block'}}>
+                                {participantes.map(item =>
+                                <List key={item} 
+                                    size="small"
+                                    bordered
+                                    style={{top: 15}}
+                                    >
+                                    <List.Item>{item.nome}
+                                    <Button shape="round" size="small" icon={<DeleteOutlined style={{color: '#cc2d37'}} />} 
+                                    style={{ color: '#cc2d37', left: 2, border: 'none'}}
+                                    onClick={() => deleteParticipante(item.nome)}
+                                    >
+                                    </Button>
+                                    </List.Item>
+                                </List>
+                                )}
+                            </Space>  
                         </Col>
                     </Row>   
                 </div> 
