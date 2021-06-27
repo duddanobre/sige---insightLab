@@ -18,6 +18,8 @@ export default function Home( {eventos} ) {
 
   const showParticipantes = () => {
     setParticipantesVisible(true);
+
+    return eventos;
   };
 
   const showCadEvento = () => {
@@ -49,23 +51,15 @@ export default function Home( {eventos} ) {
       key: 'participantes',
       dataIndex: 'participantes',
       render: participantes => (
-        <>
-        {participantes.map(i => {
-        return (
-        <div>
-          <a onClick={showParticipantes}>Visualizar</a>
-          <ListarParticipantes title="Participantes" visible={participantesVisible} ok={() => {setParticipantesVisible(false)}}>
-             <List key={i}
-             size="small"
-             bordered
-             >
-            <List.Item>{i.nome}</List.Item>
-             </List>
-          </ListarParticipantes>
-        </div>
-           );
-          })}
-        </>
+        <Space style={{ display: 'block'}}>
+        {participantes.map(item =>
+        <List key={item} 
+            size="small"
+            >
+            <List.Item style={{fontSize: '12px', fontWeight: '400'}}>{item.nome}</List.Item>
+        </List>
+        )}
+        </Space>  
       ),
     },
     {
@@ -135,6 +129,7 @@ export default function Home( {eventos} ) {
     <CadastrarEvento title="Cadastrar Evento" visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
+    
   </Layout>
 
   );
@@ -152,4 +147,3 @@ export async function getServerSideProps() {
     },
   };
 } 
-
