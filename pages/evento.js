@@ -24,6 +24,7 @@ const [form3] = Form.useForm();
 
 const [_id, setId] = useState('');
 const [nome, setNome] = useState("");
+const [date, setDate] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
 const [atividades, setAtividades] = useState([{atividade:"", data:""}]);
@@ -35,6 +36,7 @@ useEffect(() => {
   axios.get('/api/'+id).then(response => {
     setId(response.data._id);  
     setNome(response.data.nome);
+    setDate(response.data.date);
     setHorario(response.data.horario);
     setLocal(response.data.local);
     setAtividades(response.data.atividades);
@@ -116,7 +118,7 @@ function deleteParticipante(nome){
 
  function handleEditEvento(e){
     e.preventDefault();
-    const data = {_id, nome, horario, local, participantes, atividades};
+    const data = {_id, nome, date, horario, local, participantes, atividades};
   
      axios.put('/api/' +_id, data).then(() =>{
         alert('Evento alterado com sucesso');
@@ -143,10 +145,14 @@ function deleteParticipante(nome){
                                     {name: ["tema"], value: nome,},
                                     { name: ["horario"], value: horario,},
                                     { name: ["local"], value: local,},
+                                    { name: ["Data"], value: date,},
                                   ]}
                             >
                                 <Form.Item name="tema" label="Tema" rules={[{required: true,},]}>
                                     <Input value={nome} onChange={(e) => setNome(e.target.value)} />
+                                </Form.Item>
+                                <Form.Item name="Data" label="Data" rules={[{required: true,},]}>
+                                    <Input value={date} onChange={(e) => setDate(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item label="Horário" name="horario" rules={[{required: true,},]}>
                                     <Input  value={horario} onChange={(e) => {setHorario(e.target.value)}} />

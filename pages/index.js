@@ -27,6 +27,12 @@ export default function Home( {eventos} ) {
       render: nome => <div>{nome}</div>
     },
     {
+      title: "Data",
+      key: "date",
+      dataIndex:"date",
+      render: date => <div>{date}</div>
+    },
+    {
       title: "Horário",
       key: "horario",
       dataIndex: "horario",
@@ -131,8 +137,9 @@ export async function getServerSideProps() {
   const { db } = await connectToDatabase();
   const eventos = await db
     .collection("evento")
-    .find({})
+    .find({}).sort({date: -1})
     .toArray();
+    //.find({})
   return {
     props: {
       eventos: JSON.parse(JSON.stringify(eventos)),

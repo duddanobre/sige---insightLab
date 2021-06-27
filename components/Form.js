@@ -5,9 +5,8 @@ import {
   Button,
   Select,
   Divider,
-  DatePicker
 } from 'antd';
-import { format } from 'date-fns';
+
 import axios from 'axios';
 
 export default function Formulario(){
