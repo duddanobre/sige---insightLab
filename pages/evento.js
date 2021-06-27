@@ -119,8 +119,8 @@ function deleteParticipante(nome){
     const data = {_id, nome, horario, local, participantes, atividades};
   
      axios.put('/api/' +_id, data).then(() =>{
-        alert('alterado', data);
-     })
+        alert('Evento alterado com sucesso');
+     }).catch(error => alert('Falha ao editar evento', error));
      
   }
   return (
