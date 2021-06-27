@@ -1,6 +1,6 @@
 import React, {useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
-import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
+import { Layout, Card, Table, Tag, Space, Button, List, Row, Col} from 'antd';
 import {RotateLeftOutlined, PlusOutlined, EditOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import Form from '../components/Form';
@@ -107,6 +107,7 @@ export default function Home( {eventos} ) {
   ];
 
   return (
+<Row>   
 <Layout>
     <Content style={{ padding: '0 50px', marginTop: 64,  background: '#fff'}}>
       <div style={{ padding: 24, minHeight: 380, background: '#fff', color: '#fff'}}>
@@ -114,22 +115,23 @@ export default function Home( {eventos} ) {
         style={{borderColor: '#3390b5', color: '#3390b5', bottom: 15}} onClick={refreshPage}>
           Atualizar 
       </Button>
-      <Card title="Agenda" extra={
-        <Button icon={<PlusOutlined style={{color: '#2f994c'}} />} 
-        style={{borderColor: '#2f994c', color: '#2f994c'}} onClick={showCadEvento}>
-          Cadastrar evento
-        </Button>
-      }>
+      <Col flex="auto">
+        <Card title="Agenda" extra={
+          <Button icon={<PlusOutlined style={{color: '#2f994c'}} />} 
+          style={{borderColor: '#2f994c', color: '#2f994c'}} onClick={showCadEvento}>
+            Cadastrar evento
+          </Button>
+        }>
           <Table columns={columns} dataSource={eventos} rowKey={evento=>evento._id} />
-      </Card>
+        </Card>
+      </Col>
       </div>
     </Content>
     <CadastrarEvento title="Cadastrar Evento" visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
-    
   </Layout>
-
+  </Row> 
   );
 }
 
