@@ -4,7 +4,7 @@ import {
   Input,
   Button,
   Select,
-  Divider
+  Divider,
 } from 'antd';
 
 import axios from 'axios';
@@ -15,6 +15,7 @@ const [form] = Form.useForm();
 const [form2] = Form.useForm();
 const [form3] = Form.useForm();
 
+const [date, setDate] = useState("");
 const [nome, setNome] = useState("");
 const [horario, setHorario] = useState("");
 const [local, setLocal] = useState("presencial");
@@ -22,7 +23,6 @@ const [atividades, setAtividades] = useState([{atividade:"", data:""}]);
 const [campos, setCampos] = useState({atividade:'', data:''});
 const [participantes, setParticipantes] = useState([{nome:""}]);
 const [inputs, setInputs] = useState({nome:''});
-
 
 function handleInputChange(event){
   event.preventDefault();
@@ -70,16 +70,16 @@ function handleCadParticipantes(e){
 
 async function handleCadEvento(e){
   e.preventDefault();
-  const data = {nome, horario, local, participantes, atividades};
+  const data = {nome, date, horario, local, participantes, atividades};
 
   try {
    await axios.post('/api/inserirEvento', data);
+   alert('Evento cadastrado com sucesso!');
    form.resetFields();
    form2.resetFields();
   } catch (error) {
     alert('Erro ao cadastrar o evento, verifique os dados e tente novamente.', error);
   }
-  alert('Evento cadastrado com sucesso!');
 }
 
   return (
@@ -96,6 +96,9 @@ async function handleCadEvento(e){
       >
         <Form.Item name="Tema do evento" label="Tema" rules={[{required: true,},]}>
           <Input value={nome} onChange={(e) => setNome(e.target.value)} />
+        </Form.Item>
+        <Form.Item name="Data" label="Data" rules={[{required: true,},]}>
+          <Input value={date} onChange={(e) => setDate(e.target.value)} />
         </Form.Item>
         <Form.Item label="Horário" name="horario" rules={[{required: true,},]}>
           <Input value={horario} onChange={(e) => {setHorario(e.target.value)}} />

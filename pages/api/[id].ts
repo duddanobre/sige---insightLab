@@ -47,7 +47,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     if(req.method === 'PUT'){
 
-      const {_id, nome, horario, local, atividades ,participantes } = req.body;
+      const {_id, nome, date, horario, local, atividades ,participantes } = req.body;
 
       const { db } = await connectToDatabase();
     
@@ -56,12 +56,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         await collection.updateOne(
           { _id: new mongodb.ObjectID(_id) },
-          { $set: { nome, horario, local, atividades ,participantes }});
+          { $set: { nome, date, horario, local, atividades ,participantes }});
 
           console.log(res.statusCode);
           return res.status(200).json({
             success: true,
-            data: { _id, nome, horario, local, atividades ,participantes},
+            data: { _id, nome, date, horario, local, atividades ,participantes},
           });
 
       } catch (error) {

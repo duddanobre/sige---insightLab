@@ -3,24 +3,16 @@ import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
 import {RotateLeftOutlined, PlusOutlined, EditOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
-import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
 import Remove from '../components/RemoveButton';
 import Link from 'next/link';
 
 export default function Home( {eventos} ) {
-  const [participantesVisible, setParticipantesVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
  const refreshPage = ()=>{
     window.location.reload(); 
  }
-
-  const showParticipantes = () => {
-    setParticipantesVisible(true);
-
-    return eventos;
-  };
 
   const showCadEvento = () => {
     setModalVisible(true);
@@ -33,6 +25,12 @@ export default function Home( {eventos} ) {
       key: "nome",
       dataIndex:"nome",
       render: nome => <div>{nome}</div>
+    },
+    {
+      title: "Data",
+      key: "date",
+      dataIndex:"date",
+      render: date => <div>{date}</div>
     },
     {
       title: "Horário",
@@ -139,8 +137,9 @@ export async function getServerSideProps() {
   const { db } = await connectToDatabase();
   const eventos = await db
     .collection("evento")
-    .find({})
+    .find({}).sort({date: -1})
     .toArray();
+    //.find({})
   return {
     props: {
       eventos: JSON.parse(JSON.stringify(eventos)),
