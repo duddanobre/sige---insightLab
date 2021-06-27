@@ -1,11 +1,12 @@
 import React, {useState } from 'react';
 import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
-import {RotateLeftOutlined, PlusOutlined} from '@ant-design/icons';
+import {RotateLeftOutlined, PlusOutlined, EditOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
 import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
 import Remove from '../components/RemoveButton';
+import Link from 'next/link';
 
 export default function Home( {eventos} ) {
   const [participantesVisible, setParticipantesVisible] = useState(false);
@@ -17,6 +18,8 @@ export default function Home( {eventos} ) {
 
   const showParticipantes = () => {
     setParticipantesVisible(true);
+
+    return eventos;
   };
 
   const showCadEvento = () => {
@@ -48,23 +51,15 @@ export default function Home( {eventos} ) {
       key: 'participantes',
       dataIndex: 'participantes',
       render: participantes => (
-        <>
-        {participantes.map(i => {
-        return (
-        <div>
-          <a onClick={showParticipantes}>Visualizar</a>
-          <ListarParticipantes title="Participantes" visible={participantesVisible} ok={() => {setParticipantesVisible(false)}}>
-             <List key={i}
-             size="small"
-             bordered
-             >
-            <List.Item>{i.nome}</List.Item>
-             </List>
-          </ListarParticipantes>
-        </div>
-           );
-          })}
-        </>
+        <Space style={{ display: 'block'}}>
+        {participantes.map(item =>
+        <List key={item} 
+            size="small"
+            >
+            <List.Item style={{fontSize: '12px', fontWeight: '400'}}>{item.nome}</List.Item>
+        </List>
+        )}
+        </Space>  
       ),
     },
     {
@@ -96,7 +91,17 @@ export default function Home( {eventos} ) {
       key: 'acoes',
       render: evento => (
         <Space size="middle" key={evento._id}>
-          <a>editar</a>
+          <Link href={{
+            pathname: "/evento",
+            query: { id: evento._id },
+          }}>
+            <a>
+              <Button size="small"
+              style={{borderColor: '#2d21db', color: '#2d21db'}}
+              icon={<EditOutlined style={{color: '#2d21db'}} />}
+              />
+            </a>
+          </Link>
           <Remove id={evento._id} />
         </Space>
       ),
@@ -124,6 +129,7 @@ export default function Home( {eventos} ) {
     <CadastrarEvento title="Cadastrar Evento" visible={modalVisible} ok={() => {setModalVisible(false)}}>
       <Form />
     </CadastrarEvento>
+    
   </Layout>
 
   );
@@ -141,4 +147,3 @@ export async function getServerSideProps() {
     },
   };
 } 
-

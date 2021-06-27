@@ -10,6 +10,7 @@ export default function CadastrarEvento(props){
       onOk={props.ok}  
       visible={props.visible}
       style={{top: 35}}
+      closable={false}
       >
         {props.children}
       </Modal>
