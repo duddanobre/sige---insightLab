@@ -3,24 +3,16 @@ import { connectToDatabase } from "../util/mongodb";
 import { Layout, Card, Table, Tag, Space, Button, List} from 'antd';
 import {RotateLeftOutlined, PlusOutlined, EditOutlined} from '@ant-design/icons';
 import CadastrarEvento from '../components/Modal';
-import ListarParticipantes from '../components/Modal';
 import Form from '../components/Form';
 import Remove from '../components/RemoveButton';
 import Link from 'next/link';
 
 export default function Home( {eventos} ) {
-  const [participantesVisible, setParticipantesVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  
+
  const refreshPage = ()=>{
     window.location.reload(); 
  }
-
-  const showParticipantes = () => {
-    setParticipantesVisible(true);
-
-    return eventos;
-  };
 
   const showCadEvento = () => {
     setModalVisible(true);
