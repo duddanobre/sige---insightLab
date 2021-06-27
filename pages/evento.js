@@ -234,7 +234,6 @@ function deleteParticipante(nome){
                                 <List key={item} 
                                     size="small"
                                     bordered
-                                    style={{top: 15}}
                                     >
                                     <List.Item>{item.nome}
                                     <Button shape="round" size="small" icon={<DeleteOutlined style={{color: '#cc2d37'}} />} 
